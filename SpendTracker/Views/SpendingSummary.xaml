@@ -1,0 +1,109 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="SpendTracker.Views.SpendingSummary"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="False">
+
+    <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Key="YearlyCategoryItemTemplate">
+            <ContentControl HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{Binding Image}" Height="50" Width="50" Margin="15" Stretch="UniformToFill"/>
+                    <StackPanel VerticalAlignment="Top">
+                        <TextBlock Text="{Binding CategoryName}" Style="{StaticResource PhoneTextLargeStyle}" />
+                        <TextBlock Foreground="{Binding YearlyTextColor}" Text="{Binding YearlyTotalText}" Style="{StaticResource PhoneTextNormalStyle}" />
+                        <TextBlock Text="{Binding YearlyLimitText}" Style="{StaticResource PhoneTextNormalStyle}" />
+                        <TextBlock Foreground="{Binding YearlyTextColor}" Text="{Binding YearlyPercentage}" Style="{StaticResource PhoneTextNormalStyle}" />
+                        <StackPanel Orientation="Horizontal" Margin="0 10 0 5"> 
+                            <Line X1="0" Y1="0" X2="{Binding YearlyPercentageLine}" Y2="0" 
+                                  Stroke="{Binding YearlyPercentageColor}" StrokeThickness="8" />
+                            <Line X1="0" Y1="0" X2="{Binding RestYearlyPercentageLine}" Y2="0"
+                                  Stroke="LightGray"  StrokeThickness="8" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+             </ContentControl>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="CategforyFooterTemplate">
+            <Border Background="White" Opacity="0.2" Height="70">
+                <TextBlock Text="End Our Summary" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
+            </Border>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/Images/background.jpg" Opacity="0.5" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" >
+            <Grid Height="50">
+                <Grid.Background>
+                    <ImageBrush ImageSource="/Assets/Images/title_background.jpg" />
+                </Grid.Background>
+                <TextBlock Foreground="WhiteSmoke" Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            </Grid>
+        </StackPanel>
+
+        <!--Pivot Control-->
+        <phone:Pivot x:Name="summaryPivot" SelectionChanged="Pivot_OnSelectionChanged" Margin="0 25 0 0 " >
+            <!--Pivot yearly-->
+            <phone:PivotItem x:Name="YearPivotItem" Header="{Binding Path=LocalizedResources.YearlySummaryTitle, Source={StaticResource LocalizedStrings}}">
+                <Grid  Grid.Row="1" Margin="12,0,12,0">
+                    <phone:LongListSelector x:Name="YearSummary" TabIndex="0" ItemTemplate="{StaticResource YearlyCategoryItemTemplate}" 
+                                            HorizontalAlignment="Left" Height="646" VerticalAlignment="Top" Width="456"
+                                            SelectionChanged="Summary_OnSelectionChanged"
+                                            Tap="YearSummary_OnTap"
+                                            ListFooterTemplate="{StaticResource CategforyFooterTemplate}">
+                    </phone:LongListSelector>
+                </Grid>
+            </phone:PivotItem>
+
+            <phone:PivotItem x:Name="GoalsPivotItem" TabIndex="1" Header="{Binding Path=LocalizedResources.SavingSummaryTitle, Source={StaticResource LocalizedStrings}}">
+                <Grid  Grid.Row="1" Margin="12,0,12,0">
+                    <StackPanel Orientation="Vertical">
+                        <phone:LongListSelector x:Name="GoalsSummary" ItemTemplate="{StaticResource YearlyCategoryItemTemplate}" 
+                                                HorizontalAlignment="Left" Height="646" VerticalAlignment="Top" Width="456"
+                                                SelectionChanged="GoalsSummary_OnSelectionChanged"
+                                                Tap="GoalsSummary_OnTap"
+                                                ListFooterTemplate="{StaticResource CategforyFooterTemplate}">
+                        </phone:LongListSelector>
+                    </StackPanel>
+                </Grid>
+                
+            </phone:PivotItem>
+
+            <phone:PivotItem x:Name="TotalPivotItem" TabIndex="1" Header="{Binding Path=LocalizedResources.TotalSummaryTitle, Source={StaticResource LocalizedStrings}}">
+                <Grid  Grid.Row="1" Margin="12,0,12,0">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock x:Name="TbTotalSummary" FontWeight="Bold" Margin="0 0 0 30" Text="Text" Style="{StaticResource PhoneTextExtraLargeStyle}" />
+                        <TextBlock HorizontalAlignment="Left" Margin="0 0 0 10" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" Text="Since:" VerticalAlignment="Top" />
+                        <TextBlock x:Name="TbSince" Text="10/10/2013" HorizontalAlignment="Left" Margin="0 0 0 50" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                        <toolkit:DatePicker x:Name="DpTime" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="430"/>
+                        <Button x:Name="btnReset" Click="BtnReset_OnClick" Content="Reset" Margin="100,30,100,0" />
+                    </StackPanel>
+                   
+                </Grid>
+
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+    
+</phone:PhoneApplicationPage>

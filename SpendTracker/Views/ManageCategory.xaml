@@ -1,0 +1,68 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="SpendTracker.Views.ManageCategory"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="False">
+
+    <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Key="CategoryItemTemplate">
+            <ContentControl HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                <RadioButton GroupName="radio" x:Name="radioCat" HorizontalAlignment="Stretch" Margin="0,0,0,0">
+                    <StackPanel VerticalAlignment="Top">
+                        <TextBlock Text="{Binding CategoryName}" Style="{StaticResource PhoneTextLargeStyle}" />
+                    </StackPanel>
+                 </RadioButton>
+              </ContentControl>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CategforyFooterTemplate">
+            <Border Background="White" Opacity="0.2" Height="70">
+                <TextBlock Text="End Category list" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
+            </Border>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+    
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" >
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/Images/background.jpg" Opacity="0.5" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" >
+            <Grid Height="50">
+                <Grid.Background>
+                    <ImageBrush ImageSource="/Assets/Images/title_background.jpg" />
+                </Grid.Background>
+                <TextBlock Foreground="WhiteSmoke" Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            </Grid>
+            <TextBlock Text="{Binding Path=LocalizedResources.ManageCategoryTitle, Source={StaticResource LocalizedStrings}}"  Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid>
+                <phone:LongListSelector x:Name="CategorySummary" ItemTemplate="{StaticResource CategoryItemTemplate}" 
+                                            HorizontalAlignment="Left" Height="646" VerticalAlignment="Top" Width="456"
+                                            ListFooterTemplate="{StaticResource CategforyFooterTemplate}">
+                </phone:LongListSelector>
+             </Grid>
+
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>

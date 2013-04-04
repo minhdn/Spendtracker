@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Ree7.WPTileToolkit</id>
+    <version>1.0.1</version>
+    <title>Ree7 Tile Toolkit for Windows Phone 7</title>
+    <authors>Pierre BELIN</authors>
+    <owners>Pierre BELIN</owners>
+    <projectUrl>http://wp7tiletoolkit.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A flexible library aiming to help Windows Phone developers to have neat and native looking tiles for their apps and/or in their apps.
+
+Details at http://wp7tiletoolkit.codeplex.com/</description>
+    <releaseNotes />
+    <tags>ree7,toolkit,wp7,wp7dev,tile,windowsphone</tags>
+    <references>
+      <reference file="Ree7.TileToolkit.dll" />
+    </references>
+  </metadata>
+</package>
